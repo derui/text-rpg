@@ -1,0 +1,12 @@
+*.o
+*.cmi
+*.cmx
+*.cmo
+*.cma
+*.cmxa
+*.a
+
+*.omc
+*.opt
+*.cmt
+*.cmti
