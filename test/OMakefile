@@ -33,13 +33,14 @@ open MyUtil
 USE_OCAMLFIND = true
 #
 OCAMLPACKS[] =
+	oUnit
 #
 if $(not $(OCAMLFIND_EXISTS))
    eprintln(This project requires ocamlfind, but is was not found.)
    eprintln(You need to install ocamlfind and run "omake --configure".)
    exit 1
 
-OCAMLFINDFLAGS = -syntax camlp4o
+OCAMLFINDFLAGS = 
 
 #
 # Include path
@@ -78,7 +79,10 @@ OCAML_LINK_FLAGS +=
 #
 
 FILES[] =
-
+	all_test
+	event_queue_test
+	param_test
+	../src/param
 #
 # OCAML_LIBS +=
 # OCAML_CLIBS +=
@@ -86,5 +90,8 @@ FILES[] =
 # OCAML_LIB_FLAGS += -cclib -lsdl
 # OCAML_LIB_FLAGS += -verbose
 #
-# need sdlcaml library
 
+OCamlProgram(all_test, $(FILES))
+
+test: all_test$(EXE)
+	./all_test$(EXE)

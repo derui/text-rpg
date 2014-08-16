@@ -91,6 +91,7 @@ FILES[]=
 	attack
 	ui
 	event_handler
+	world
 
 OCamlProgram(main, $(FILES))
 
