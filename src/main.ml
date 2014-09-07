@@ -1,12 +1,10 @@
+open Core.Common
 open CamomileLibrary
 
 let obj_maker generator =
-  let module P = Param.Base in
-  {
-    (P.empty generator) with
-      P.hp = (Random.int 20) + 10;
-      P.attack = (Random.int 20) + 10;
-      P.guard = (Random.int 20) + 10;
+  let module P = Param_core.Base in
+  {Object.base = P.empty generator;
+   apply_buff = Param_monad.return ()
   }
 
 module Base_layout = struct
@@ -44,15 +42,19 @@ end
 let make_handler base wakener current =
   Event_handler.make (function
   | Event_handler.Attack (from', to') -> begin
+    let module O = Object in
     let _ , e = Attack.attack from' to' in
     if !current then
-      base.Base_layout.enemy.Ui.param <- e
+      base.Base_layout.enemy.Ui.obj <- e
     else
-      base.Base_layout.player.Ui.param <- e;
+      base.Base_layout.player.Ui.obj <- e;
 
     Base_layout.update base;
 
-    if e.Param.Base.hp = 0 then
+    let module B = Param_core.Base in
+    let module L = Param_core.Life in
+    let open Natural.Open in
+    if e.Object.base.B.life.L.current = (Natural.make 0L) then
       Some (Event_handler.End)
     else
       Some(Event_handler.Continue)
@@ -92,9 +94,9 @@ let () =
              let p = base.Base_layout.player
              and e = base.Base_layout.enemy in
              if !current then begin
-               Event_handler.send handler (Event_handler.Attack (p.Ui.param, e.Ui.param))
+               Event_handler.send handler (Event_handler.Attack (p.Ui.obj, e.Ui.obj))
              end else begin
-               Event_handler.send handler (Event_handler.Attack (e.Ui.param, p.Ui.param))
+               Event_handler.send handler (Event_handler.Attack (e.Ui.obj, p.Ui.obj))
              end;
              current := not !current;
              true

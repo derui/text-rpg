@@ -32,6 +32,7 @@ USE_OCAMLFIND = true
 #
 OCAMLPACKS[] =
 	lambda-term
+	core
 #
 if $(not $(OCAMLFIND_EXISTS))
    eprintln(This project requires ocamlfind, but is was not found.)
@@ -54,7 +55,7 @@ BYTE_ENABLED = true
 #
 # Various options
 #
-OCAMLFLAGS    += -bin-annot -g
+OCAMLFLAGS    += -bin-annot -g -thread
 # OCAMLCFLAGS   +=
 # OCAMLOPTFLAGS +=
 # OCAML_LINK_FLAGS +=
@@ -86,8 +87,11 @@ OCAMLFLAGS    += -bin-annot -g
 # need to add generated files by camlidl to adependency for .DEFAULT.
 
 FILES[]=
+	natural
+	param_core
+	param_monad
+	object
 	main
-	param
 	attack
 	ui
 	event_handler

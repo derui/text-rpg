@@ -1,5 +1,7 @@
+open Core.Common
+
 type event =
-  Attack of Param.Base.t * Param.Base.t                       (* 攻撃を行う *)
+  Attack of Object.t * Object.t                       (* 攻撃を行う *)
 | Continue                      (* まだ継続する *)
 | End                           (* 終了する *)
 

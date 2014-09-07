@@ -1,3 +1,4 @@
+open Core.Common
 type t = {
   queue : Param.Base.t Queue.t
 }
