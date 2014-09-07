@@ -8,10 +8,14 @@ type t = {
 }
 
 let make p =
+  let module N = Natural in
+  let module B = Param_core.Base in
+  let module P = Param_core.Physical in
+  let module L = Param_core.Life in
   {
-    hp = new LTerm_widget.label "";
-    attack = new LTerm_widget.label "";
-    guard = new LTerm_widget.label "";
+    hp = new LTerm_widget.label (N.to_string p.Object.base.B.life.L.current);
+    attack = new LTerm_widget.label (string_of_int p.Object.base.B.physical.P.attack);
+    guard = new LTerm_widget.label (string_of_int p.Object.base.B.physical.P.guard);
     obj = p;
   }
 
@@ -23,9 +27,12 @@ let layout ui =
   base
 
 let update ui =
-  let module P = Param_core.Base in
+  let module N = Natural in
+  let module B = Param_core.Base in
+  let module P = Param_core.Physical in
+  let module L = Param_core.Life in
   begin
-    ui.hp#set_text "";
-    ui.attack#set_text "";
-    ui.guard#set_text "";
+    ui.hp#set_text (N.to_string ui.obj.Object.base.B.life.L.current);
+    ui.attack#set_text (string_of_int ui.obj.Object.base.B.physical.P.attack);
+    ui.guard#set_text (string_of_int ui.obj.Object.base.B.physical.P.guard);
   end

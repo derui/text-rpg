@@ -1,10 +1,23 @@
 open Core.Common
 open CamomileLibrary
+module R = Core.Core_random
 
 let obj_maker generator =
-  let module P = Param_core.Base in
-  {Object.base = P.empty generator;
-   apply_buff = Param_monad.return ()
+  let module B = Param_core.Base in
+  let module P = Param_core.Physical in
+  let phis_gen =
+    let open Param_monad in
+    get_physical () >>= (fun p ->
+      let p = {P.attack = R.int 100;
+               guard = R.int 100} in
+      put_physical p
+    ) in
+  let obj = B.empty generator in
+  let obj = {obj with B.life = Param_core.Life.make (R.int64 100L) 100L} in
+  let obj = Param_monad.eval_state phis_gen obj in
+  {
+    Object.base = obj;
+    apply_buff = Param_monad.return ();
   }
 
 module Base_layout = struct
@@ -18,10 +31,10 @@ module Base_layout = struct
     let p = World.generate_obj world  obj_maker
     and e = World.generate_obj world  obj_maker in
     {
-    player = Ui.make p;
-    enemy = Ui.make e;
-    log = new LTerm_widget.label "log";
-  }
+      player = Ui.make p;
+      enemy = Ui.make e;
+      log = new LTerm_widget.label "log";
+    }
 
   let layout l =
     let base = new LTerm_widget.vbox in
@@ -69,7 +82,7 @@ let () =
   let window = LTerm.create stdin Lwt_io.stdin stdout Lwt_io.stdout in
   let world = World.make () in
 
-  Random.init 4;
+  R.init 4;
   begin
     let open Lwt in
     Lwt_main.run (
@@ -91,15 +104,15 @@ let () =
           | 'q' -> wakeup wakener (); true
           | 'z' -> boxes#add (new LTerm_widget.label "click"); true
           | 'a' ->
-             let p = base.Base_layout.player
-             and e = base.Base_layout.enemy in
-             if !current then begin
-               Event_handler.send handler (Event_handler.Attack (p.Ui.obj, e.Ui.obj))
-             end else begin
-               Event_handler.send handler (Event_handler.Attack (e.Ui.obj, p.Ui.obj))
-             end;
-             current := not !current;
-             true
+            let p = base.Base_layout.player
+            and e = base.Base_layout.enemy in
+            if !current then begin
+              Event_handler.send handler (Event_handler.Attack (p.Ui.obj, e.Ui.obj))
+            end else begin
+              Event_handler.send handler (Event_handler.Attack (e.Ui.obj, p.Ui.obj))
+            end;
+            current := not !current;
+            true
           | _ -> false
         end
         | _ -> false

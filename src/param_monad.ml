@@ -7,11 +7,11 @@ module Basic = struct
 
   let return x s = (x, s)
 
-  let runState (t:'a t) (s:Param_core.Base.t) = t s
-  let evalState t s = snd (runState t s)
-  let bind p f s = let (nv, ns) = runState p s in
+  let run_state (t:'a t) (s:Param_core.Base.t) = t s
+  let eval_state t s = snd (run_state t s)
+  let bind p f s = let (nv, ns) = run_state p s in
                    let act = f nv in
-                   runState act ns
+                   run_state act ns
 
   let map = `Define_using_bind
 end
