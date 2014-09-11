@@ -41,11 +41,7 @@ module Life = struct
     maximum = Natural.make maximum;
   }
 
-  let clamp l =
-    let open Natural.Open in
-    if l.current >= l.maximum then
-      {l with current = l.maximum}
-    else l
+  let clamp l = {l with current = min l.current l.maximum}
 
   let put t current = clamp {t with current}
 end
