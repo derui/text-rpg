@@ -11,7 +11,7 @@ let div (t:'a t) (t':'a t) = max (Int64.div t t') 0L
 let compare (t: 'a t) (t': 'a t) = Int64.compare t t'
 let of_int : int -> 'a t = Int64.of_int
 let to_int : 'a t -> int = Int64.to_int
-let to_int64 v : 'a t -> int64 = v
+let to_int64 (v : 'a t) = (v : int64)
 let to_string : 'a t -> string = Int64.to_string
 
 module Open = struct

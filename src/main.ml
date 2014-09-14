@@ -9,7 +9,9 @@ let obj_maker generator =
     let open Param_monad in
     get_physical () >>= (fun p ->
       let p = {P.attack = R.int 100;
-               guard = R.int 100} in
+               guard = R.int 100;
+               speed = Natural.make 1L;
+              } in
       put_physical p
     ) in
   let obj = B.empty generator in
@@ -38,10 +40,12 @@ module Base_layout = struct
 
   let layout l =
     let base = new LTerm_widget.vbox in
+    let objs = new LTerm_widget.hbox in
     let module G = LTerm_geom in
-    base#add (Ui.layout l.player);
-    base#add ~expand:false (new LTerm_widget.hline);
-    base#add (Ui.layout l.enemy);
+    objs#add (Ui.layout l.player);
+    objs#add ~expand:false (new LTerm_widget.vline);
+    objs#add (Ui.layout l.enemy);
+    base#add objs;
     base#add ~expand:false (new LTerm_widget.hline);
     base#add l.log;
     base
@@ -51,6 +55,21 @@ module Base_layout = struct
     Ui.update t.enemy
 
 end
+
+let goto_next_turn objs =
+  let module L = Core.Std.List in
+  let module B = Param_core.Base in
+
+  let rec goto_next_turn' objs =
+    let f o = {o with Object.base = B.tick o.Object.base} in
+    let objs = L.map objs ~f in
+    let f o = Turn.is_wait o.Object.base.B.current_turn in
+    match (L.for_all objs ~f) with
+    | true -> goto_next_turn' objs
+    | false -> objs
+  in
+  goto_next_turn' objs
+
 
 let make_handler base wakener current =
   Event_handler.make (function
@@ -67,7 +86,7 @@ let make_handler base wakener current =
     let module B = Param_core.Base in
     let module L = Param_core.Life in
     let open Natural.Open in
-    if e.Object.base.B.life.L.current = (Natural.make 0L) then
+    if L.is_valid e.Object.base.B.life then
       Some (Event_handler.End)
     else
       Some(Event_handler.Continue)

@@ -79,10 +79,9 @@ OCAML_LINK_FLAGS +=
 #
 
 FILES[] =
-	all_test
-	event_queue_test
 	param_test
-	../src/param
+	turn_test
+	all_test
 #
 # OCAML_LIBS +=
 # OCAML_CLIBS +=

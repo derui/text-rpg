@@ -28,6 +28,7 @@ end
 (* 自然数を利用目的に応じた分類のために利用する型 *)
 type _life
 type _magic
+type _speed
 
 module Life = struct
   type value = _life Natural.t
@@ -41,21 +42,31 @@ module Life = struct
     maximum = Natural.make maximum;
   }
 
-  let clamp l = {l with current = min l.current l.maximum}
+  let clamp l = {l with current = max (Natural.make 0L) (min l.current l.maximum)}
 
   let put t current = clamp {t with current}
+
+  let is_valid t = let open Natural.Open in t.current <> (Natural.make 0L)
+
+  let to_string p = Printf.sprintf "%Ld/%Ld" (Natural.to_int64 p.current) (Natural.to_int64 p.maximum)
 end
 type magic = _magic Natural.t
+
+module Speed = struct
+  type t = _speed Natural.t
+end
 
 module Physical = struct
   type t = {
     attack: int;
     guard: int;
+    speed : Speed.t;
   }
 
   let empty () = {
     attack = 0;
     guard = 0;
+    speed = Natural.make 0L;
   }
 
 end
@@ -65,12 +76,18 @@ module Base = struct
     eigen: Eigen.t;
     life : Life.t;
     physical : Physical.t;
+    current_turn : Turn.t;
   }
 
   let empty gen = {
     eigen = Eigen.make (gen ());
     life = Life.make 0L 1L;
     physical = Physical.empty ();
+    current_turn = Turn.create ();
+  }
+
+  let tick t = {
+    t with current_turn = Turn.next_tick t.current_turn t.physical.Physical.speed
   }
 
 end

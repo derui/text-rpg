@@ -1,8 +1,8 @@
 open OUnit
 
 let suite  = "All tests" >::: [
-  Event_queue_test.suite;
   Param_test.suite;
+  Turn_test.suite;
 ]
 
 let () =

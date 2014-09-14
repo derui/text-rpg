@@ -7,7 +7,7 @@ val div : 'a t -> 'a t -> int64
 val compare : 'a t -> 'a t -> int
 val of_int : int -> 'a t
 val to_int : 'a t -> int
-val to_int64 : ('a t -> int64) -> 'a t -> int64
+val to_int64 : 'a t -> int64
 val to_string : 'a t -> string
 module Open :
   sig

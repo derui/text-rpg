@@ -88,6 +88,7 @@ OCAMLFLAGS    += -bin-annot -g -thread
 
 FILES[]=
 	natural
+	turn
 	param_core
 	param_monad
 	object
