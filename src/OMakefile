@@ -33,6 +33,10 @@ USE_OCAMLFIND = true
 OCAMLPACKS[] =
 	lambda-term
 	core
+	num
+	ppx_sexp_conv
+	ppx_sexp_value
+	sexplib
 #
 if $(not $(OCAMLFIND_EXISTS))
    eprintln(This project requires ocamlfind, but is was not found.)
@@ -86,17 +90,7 @@ OCAMLFLAGS    += -bin-annot -g -thread
 # As gl_enum.h is referenced by already existed .c file,
 # need to add generated files by camlidl to adependency for .DEFAULT.
 
-FILES[]=
-	natural
-	turn
-	param_core
-	param_monad
-	object
-	main
-	attack
-	ui
-	event_handler
-	world
+FILES[]= $(removesuffix $(ls *.ml))
 
 OCamlProgram(main, $(FILES))
 

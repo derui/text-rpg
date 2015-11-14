@@ -10,3 +10,7 @@
 *.opt
 *.cmt
 *.cmti
+
+.omakedb*
+test/all_test*
+test/oUnit*

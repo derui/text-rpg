@@ -1,0 +1,6 @@
+S src
+B src
+EXT spec
+PKG core
+PKG num
+PKG ppx_sexp
