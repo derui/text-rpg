@@ -61,6 +61,9 @@ let abilities_to_offset ~target_class abilities =
       | Some v -> to_unmergeable_offset (Some (max ab.value v)) rest
   in
 
+  let abilities = List.filter abilities
+    ~f:(fun {ability_class;_} -> ability_class = target_class) in
+
   let mergeables = List.filter_map ~f:(fun v ->
       if is_mergeable v then Some (v, v.mergeable) else None
     ) abilities in
