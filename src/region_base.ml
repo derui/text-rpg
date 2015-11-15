@@ -22,5 +22,5 @@ class virtual region common = object
   *)
 
   method get_common : common = common
-(* Get value of this region *)
+  (* Get value of this region *)
 end
