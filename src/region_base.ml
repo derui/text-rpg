@@ -8,7 +8,7 @@ type common = {
   attachable: Ability.ability_class list;
 } [@@deriving sexp]
 
-type region_type = [`Blade]
+type region_type = [`Blade | `Helve | `Lower_guard]
   [@@deriving sexp]
 
 class virtual region common = object

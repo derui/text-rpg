@@ -1,6 +1,9 @@
 open Core.Std
 
-type ability_class = [`Slash_attack | `Slash_defence]
+type ability_class = [
+  `Slash_attack | `Slash_defence | `Smash_attack | `Smash_defence
+| `Dexterity | `Agility
+]
   [@@deriving sexp]
 
 type merge_type = Add | Multi | NotMerge
