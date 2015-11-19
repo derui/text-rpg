@@ -10,14 +10,14 @@ type ability_class = [
 type merge_type = Addition | Multiplication [@@deriving sexp]
 
 (* The mergeablity for ability *)
-type mergeable = Mergeable of merge_type | Unmergeable
+type mergeability = Mergeable of merge_type | Unmergeable
   [@@deriving sexp]
 
 (* Type of ability *)
 type t = {
-  ability_class:ability_class;
+  ability_class: ability_class;
   value: Float.t;
-  mergeable: mergeable;
+  mergeability: mergeability;
 } [@@deriving sexp]
 
 (* Offset for an ability. Offset is merged each abilities with merge_type. *)
@@ -37,7 +37,7 @@ let abilities_to_offset ~target_class abilities =
 
   (* Predicate an ability mergeable or not *)
   let is_mergeable = function
-    | {mergeable = Mergeable _;_} -> true
+    | {mergeability = Mergeable _;_} -> true
     | _ -> false
   in
 
@@ -65,7 +65,7 @@ let abilities_to_offset ~target_class abilities =
     ~f:(fun {ability_class;_} -> ability_class = target_class) in
 
   let mergeables = List.filter_map ~f:(fun v ->
-      if is_mergeable v then Some (v, v.mergeable) else None
+      if is_mergeable v then Some (v, v.mergeability) else None
     ) abilities in
   let unmergeables = List.filter ~f:(Fn.non is_mergeable) abilities in
 

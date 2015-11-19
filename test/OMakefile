@@ -10,6 +10,9 @@ USE_OCAMLFIND = true
 OCAMLPACKS[] =
 	ppx_simplespec
 	core
+	ppx_sexp_conv
+	ppx_sexp_value
+	sexplib
 #
 if $(not $(OCAMLFIND_EXISTS))
    eprintln(This project requires ocamlfind, but is was not found.)
