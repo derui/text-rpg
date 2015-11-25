@@ -12,3 +12,4 @@ type t = {
   components: component list;
 (* Components defines attachable region type and count. *)
 }
+

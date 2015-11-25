@@ -1,0 +1,1 @@
+((mergeable_abilities(Slash_attack))(unmergeable_abilities(Slash_defence)))
