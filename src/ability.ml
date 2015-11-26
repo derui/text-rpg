@@ -1,8 +1,8 @@
 open Core.Std
 
 type ability_class = [
-    `Slash_attack | `Slash_defence | `Smash_attack | `Smash_defence
-  | `Dexterity | `Agility
+  `Slash_attack | `Slash_defence | `Smash_attack | `Smash_defence
+| `Dexterity | `Agility
 ]
   [@@deriving sexp]
 
@@ -11,7 +11,7 @@ type merge_type = Addition | Multiplication [@@deriving sexp]
 
 (* The mergeablity for ability *)
 type mergeability = Mergeable of merge_type | Unmergeable
-  [@@deriving sexp]
+    [@@deriving sexp]
 
 (* Type of ability *)
 type t = {
@@ -29,11 +29,11 @@ type offset = {
 
 let abilities_to_offset ~target_class abilities =
   let module M = Map.Make(struct
-      type t = merge_type
-      let t_of_sexp = [%of_sexp : merge_type]
-      let sexp_of_t = [%sexp_of : merge_type]
-      let compare = Pervasives.compare
-    end) in
+    type t = merge_type
+    let t_of_sexp = [%of_sexp : merge_type]
+    let sexp_of_t = [%sexp_of : merge_type]
+    let compare = Pervasives.compare
+  end) in
 
   (* Predicate an ability mergeable or not *)
   let is_mergeable = function
@@ -45,11 +45,11 @@ let abilities_to_offset ~target_class abilities =
   let rec to_mergeable_offset hashmap = function
     | [] -> hashmap
     | (ab, Mergeable typ) :: rest -> begin
-        match M.find hashmap typ with
-        | None -> to_mergeable_offset (M.add hashmap ~key:typ ~data:ab.value) rest
-        | Some v -> 
-          to_mergeable_offset (M.add hashmap ~key:typ ~data:(v +. ab.value)) rest
-      end
+      match M.find hashmap typ with
+      | None -> to_mergeable_offset (M.add hashmap ~key:typ ~data:ab.value) rest
+      | Some v -> 
+         to_mergeable_offset (M.add hashmap ~key:typ ~data:(v +. ab.value)) rest
+    end
     | _ :: rest -> to_mergeable_offset hashmap rest
   in
 
@@ -65,8 +65,8 @@ let abilities_to_offset ~target_class abilities =
     ~f:(fun {ability_class;_} -> ability_class = target_class) in
 
   let mergeables = List.filter_map ~f:(fun v ->
-      if is_mergeable v then Some (v, v.mergeability) else None
-    ) abilities in
+    if is_mergeable v then Some (v, v.mergeability) else None
+  ) abilities in
   let unmergeables = List.filter ~f:(Fn.non is_mergeable) abilities in
 
   let mergeables = to_mergeable_offset M.empty mergeables in

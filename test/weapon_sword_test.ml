@@ -1,6 +1,6 @@
 open Core.Std
 
-let%spec "Sword should have three component to be able to attach" =
+let%spec "Sword should have 3 component to be able to attach" =
   let module W = Weapon_base in
   let module S = Weapon_sword in
   let w = S.make_sword () in
