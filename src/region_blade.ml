@@ -5,7 +5,5 @@ class t common = object (self)
   method get_region_type = `Blade
   (* Get type of this region *)
 
-  method get_attachable: Ability.ability_class list =
-    let cm = self#get_common in
-    List.concat [cm.Region_base.attachable;[`Slash_attack]]
+  method get_region_uniq_abilities = [`Slash_attack]
 end
