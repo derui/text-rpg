@@ -25,7 +25,7 @@ type offset = {
   amount_addition: Float.t;
   amount_multiple: Float.t;
   amount_unmergeable: Float.t option;
-}
+} [@@deriving sexp]
 
 let abilities_to_offset ~target_class abilities =
   let module M = Map.Make(struct
@@ -77,3 +77,16 @@ let abilities_to_offset ~target_class abilities =
     amount_multiple = M.find mergeables Multiplication |> Option.value ~default:1.0;
     amount_unmergeable = unmergeables;
   }
+
+let filter_class target_class abilities =
+  List.filter abilities ~f:(fun ability -> ability.ability_class = target_class)
+
+(* Merge abilities are same ability class to an ability. *)
+let merge base ~matters =
+  let matters = filter_class base.ability_class matters in
+
+  if List.is_empty matters then base
+  else
+    let open Float.O in
+    let value = List.fold_left matters ~init:Float.zero ~f:(fun memo ability -> memo + ability.value) in
+    {base with value = base.value + value}
