@@ -8,7 +8,7 @@ type common = {
   attachable: Ability.ability_class list;
 } [@@deriving sexp]
 
-type region_type = [`Blade | `Helve | `Lower_guard | `Double_edge_blade]
+type region_type = [`Blade | `Helve | `Lower_guard | `Broad_blade | `Shaft]
   [@@deriving sexp]
 
 (* deduplicate attchable abilities between original and abilities of unique-per-region *)
