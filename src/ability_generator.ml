@@ -23,7 +23,9 @@ let ability {state;setting} =
                                     setting.S.unmergeable_abilities
                                    ] (int_range state 2) in
   let ability_class = List.nth_exn ability_class (List.length ability_class |> int_range state) in
-  {A.ability_class;
+  let id = Random.State.int64 state Int64.max_value in
+  {A.id = id;
+   ability_class;
    mergeability;
    value;
   }

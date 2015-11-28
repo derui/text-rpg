@@ -1,8 +1,11 @@
 open Core.Std
 
+(* The identity for abilities. *)
+type id = Int64.t [@@deriving sexp]
+
 type ability_class = [
   `Slash_attack | `Slash_defence | `Smash_attack | `Smash_defence
-| `Dexterity | `Agility
+| `Dexterity | `Agility | `Vitality
 ]
   [@@deriving sexp]
 
@@ -15,6 +18,7 @@ type mergeability = Mergeable of merge_type | Unmergeable
 
 (* Type of ability *)
 type t = {
+  id: id;
   ability_class: ability_class;
   value: Float.t;
   mergeability: mergeability;

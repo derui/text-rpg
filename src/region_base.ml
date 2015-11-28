@@ -1,7 +1,12 @@
 open Core.Std
 
+(* The inner identify of region.
+   Using this to specify operations such as remove/attach/merge and others. *)
+type region_id = Int64.t [@@deriving sexp]
+
 (* The type of region *)
 type common = {
+  region_id: region_id;
   base_ratio: Float.t;
   abilities: Ability.t list;
   max_abilities: Int.t;

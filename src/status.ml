@@ -12,6 +12,7 @@ type t = {
   smash_defence: Float.t;
   lunge_defence: Float.t;
 
+  vitality: Float.t;
   dexterity: Float.t;
   agility: Float.t;
 }

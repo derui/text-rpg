@@ -13,3 +13,8 @@ type t = {
 (* Components defines attachable region type and count. *)
 }
 
+(* A simple wrapper making Region. *)
+let make ?(regions=[]) ~components () = {
+  regions;
+  components;
+}
