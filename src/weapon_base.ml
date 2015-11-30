@@ -1,6 +1,6 @@
 open Core.Std
 
-type component = Region_base.region_type * int [@@deriving sexp]
+type component = Region_common.region_type * int [@@deriving sexp]
 (* A component of the weapon. Having component region type and count are attachable to a
    weapon.
 *)

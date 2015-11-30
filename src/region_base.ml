@@ -1,28 +1,15 @@
 open Core.Std
 
-(* The inner identify of region.
-   Using this to specify operations such as remove/attach/merge and others. *)
-type region_id = Int64.t [@@deriving sexp]
-
-(* The type of region *)
-type common = {
-  region_id: region_id;
-  base_ratio: Float.t;
-  abilities: Ability.t list;
-  max_abilities: Int.t;
-  attachable: Ability.ability_class list;
-} [@@deriving sexp]
-
-type region_type = [`Blade | `Helve | `Lower_guard | `Broad_blade | `Shaft]
-  [@@deriving sexp]
-
 (* deduplicate attchable abilities between original and abilities of unique-per-region *)
 let dedup_attachable origin region_unique =
   List.concat [origin;region_unique] |> List.dedup
 
 class virtual region common = object (self)
-  method virtual get_region_type: region_type
+  val mutable common_info = common
+  val mutable extracted = false
+
   (* Get type of this region *)
+  method virtual get_region_type: Region_common.region_type
 
   (* Get attchable ability class list for region-unique abilities.
      Implementing this method should.
@@ -32,8 +19,21 @@ class virtual region common = object (self)
   (* Get list attachable ability classes. *)
   method get_attachable = 
     let cm = self#get_common in
-    dedup_attachable cm.attachable self#get_region_uniq_abilities
+    dedup_attachable cm.Region_common.attachable self#get_region_uniq_abilities
 
-  method get_common : common = common
+  method get_common : Region_common.t = common_info
 (* Get value of this region *)
+
+  method is_empty = extracted
+
+  (* Extract an ability from this. This method mark this as empty region.
+     Empty region can not extract any ability from.
+  *)
+  method extract_ability: Ability.id -> Ability.t option = fun id ->
+    if self#is_empty then None
+    else
+      let module C = Region_common in
+      let module A = Ability in
+      let cm = self#get_common in
+      List.find cm.C.abilities ~f:(fun ab -> ab.A.id = id) 
 end
