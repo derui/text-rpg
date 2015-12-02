@@ -25,6 +25,7 @@ class virtual region common = object (self)
 (* Get value of this region *)
 
   method is_empty = extracted
+  (* Query what this is already extracted *)
 
   (* Extract an ability from this. This method mark this as empty region.
      Empty region can not extract any ability from.
@@ -35,5 +36,8 @@ class virtual region common = object (self)
       let module C = Region_common in
       let module A = Ability in
       let cm = self#get_common in
-      List.find cm.C.abilities ~f:(fun ab -> ab.A.id = id) 
+      let ab = List.find cm.C.abilities ~f:(fun ab -> ab.A.id = id) in
+      common_info <- {cm with C.abilities = []};
+      extracted <- true;
+      ab
 end
