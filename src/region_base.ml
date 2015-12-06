@@ -9,7 +9,7 @@ let dedup_attachable origin region_unique =
 type t = {
   builtin: Builtin.t;
   common: Common.t;
-}
+} [@@deriving sexp]
 
 let make ~builtin ~common = {builtin; common}
 

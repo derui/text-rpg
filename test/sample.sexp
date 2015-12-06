@@ -1,1 +1,1 @@
-((mergeable_abilities(Slash_attack))(unmergeable_abilities(Slash_defence)))
+(((ability Slash_attack)(region_type Blade)(attachable())))

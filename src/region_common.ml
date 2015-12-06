@@ -24,10 +24,13 @@ module Common = struct
 
 end
 
+(* The type of built-in information per region. This type should not make hand-on and should load
+   from setting file.
+*)
 module Builtin = struct
   type t = {
     ability: Ability.ability_class;
     region_type: region_type;
     attachable: Ability.ability_class list;
-  }
+  }  [@@deriving sexp]
 end

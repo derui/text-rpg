@@ -13,7 +13,7 @@ type t = {
   (* Regions constructed a weapon *)
   components: component list;
 (* Components defines attachable region type and count. *)
-}
+} [@@deriving sexp]
 
 (* A simple wrapper making Region. *)
 let make ?(regions=[]) ~components () = {
