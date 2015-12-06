@@ -15,7 +15,7 @@ let int_range state bound = Random.State.int state bound
 let merge_type = [A.Addition;A.Multiplication]
 let mergeability merge_type = [A.Mergeable (merge_type);A.Unmergeable]
 
-let ability {state;setting} =
+let new_ability ?target_class {state;setting} () =
   let merge_type = List.nth_exn merge_type (int_range state 2) in
   let mergeability = List.nth_exn (mergeability merge_type) (int_range state 2) in
   let value = Random.State.float state 100.0 in

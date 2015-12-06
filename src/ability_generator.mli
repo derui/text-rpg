@@ -10,6 +10,6 @@ type t
 val make: state:Random.State.t -> setting:Ability_setting.t -> unit -> t
   (* Make a new generator with Random state. *)
 
-val ability: t -> Ability.t
+val new_ability: ?target_class:Ability.ability_class -> t -> unit -> Ability.t
 (* Generate an ability which have randomized class and values. *)
 

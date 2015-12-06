@@ -2,7 +2,7 @@ open Core.Std
 module R = Region_base
 
 let builtin = {
-  R.Builtin.ability = `Slash_attack;
+  R.Builtin.unique_ability = `Slash_attack;
   attachable = [];
   region_type = `Blade
 }
@@ -14,7 +14,6 @@ let%spec "Weapon can detach region having self" =
   let regions = [R.make ~builtin ~common:{
     R.Common.id = 1L;
     base_ratio = 0.1;
-    attachable = [`Slash_defence];
     max_abilities = 1;
     abilities = [{
       A.id = 1L;
@@ -37,7 +36,6 @@ let%spec "Weapon can detach region not contained and get None as region" =
   let regions = [R.make ~builtin ~common:{
     R.Common.id = 1L;
     base_ratio = 0.1;
-    attachable = [`Slash_defence];
     max_abilities = 1;
     abilities = [{
       A.id = 1L;

@@ -1,1 +1,1 @@
-(((ability Slash_attack)(region_type Blade)(attachable())))
+((region_builtins((Blade((unique_ability Slash_attack)(region_type Blade)(attachable())))))(max_attachable_count 1)(region_attachable_freq()))

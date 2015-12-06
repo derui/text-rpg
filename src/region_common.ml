@@ -15,11 +15,10 @@ module Common = struct
     base_ratio: Float.t;
     abilities: Ability.t list;
     max_abilities: Int.t;
-    attachable: Ability.ability_class list;
   } [@@deriving sexp]
 
   let empty id = {
-    id;base_ratio = 0.0;abilities = []; max_abilities = 0;attachable = []
+    id;base_ratio = 0.0;abilities = []; max_abilities = 0;
   }
 
 end
@@ -29,7 +28,7 @@ end
 *)
 module Builtin = struct
   type t = {
-    ability: Ability.ability_class;
+    unique_ability: Ability.ability_class;
     region_type: region_type;
     attachable: Ability.ability_class list;
   }  [@@deriving sexp]
