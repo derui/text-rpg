@@ -7,7 +7,7 @@ type t = {
   setting: Ability_setting.t;
 }
 
-let make ~state ~setting () =
+let make ~state ~setting =
   {state;setting}
 
 let int_range state bound = Random.State.int state bound

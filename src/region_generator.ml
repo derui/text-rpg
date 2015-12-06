@@ -8,7 +8,7 @@ type t = {
   setting: Region_setting.t;
 }
 
-let make ~state ~ability_generator ~setting  =
+let make ~state ~ability_generator ~setting =
   {state;ability_generator;setting}
 
 let int_range state bound = Random.State.int state bound
@@ -38,8 +38,8 @@ let new_attachable freq state =
 let new_common builtin {state;setting;ability_generator} =
   let region_type = builtin.R.Builtin.region_type in
   let _, freq = List.find_exn setting.S.region_attachable_freq ~f:(fun (typ, _) -> typ = region_type) in
-  let max_abilities = int_range state setting.S.max_attachable_count |> min 1 in
-  let current_abilities_count = min 1 (Random.State.int state max_abilities) in
+  let max_abilities = int_range state setting.S.max_attachable_count |> max 1 in
+  let current_abilities_count = max 1 (Random.State.int state max_abilities) in
   let target_abilities = List.range 0 current_abilities_count |> List.map ~f:(fun _ ->
     new_attachable freq state
   ) |> List.map ~f:Tuple2.get2 in

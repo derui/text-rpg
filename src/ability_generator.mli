@@ -7,7 +7,7 @@ open Core.Std
 type t
 (* A type of generator *)
 
-val make: state:Random.State.t -> setting:Ability_setting.t -> unit -> t
+val make: state:Random.State.t -> setting:Ability_setting.t -> t
   (* Make a new generator with Random state. *)
 
 val new_ability: ?target_class:Ability.ability_class -> t -> unit -> Ability.t

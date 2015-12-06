@@ -7,7 +7,7 @@ let%spec "Ability generator can generate an ability via given State" =
   let gen = Ability_generator.make ~state ~setting:{
     S.mergeable_abilities = [`Slash_attack];
     unmergeable_abilities = [`Slash_defence]
-  } () in
+  } in
 
   let ab = Ability_generator.new_ability gen () in
   ab.A.ability_class [@eq `Slash_attack];
