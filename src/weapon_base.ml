@@ -1,4 +1,5 @@
 open Core.Std
+module R = Region_base
 module C = Region_common
 
 type component = Region_common.region_type * int [@@deriving sexp]
@@ -8,7 +9,7 @@ type component = Region_common.region_type * int [@@deriving sexp]
 
 (* The type of weapon *)
 type t = {
-  regions: Region_base.region list;
+  regions: Region_base.t list;
   (* Regions constructed a weapon *)
   components: component list;
 (* Components defines attachable region type and count. *)
@@ -22,6 +23,6 @@ let make ?(regions=[]) ~components () = {
 
 (* detach region from weapon. *)
 let detach_region t region_id =
-  let find_region region = region#get_common.C.id = region_id in
+  let find_region region = R.region_id region = region_id in
   let region = List.find t.regions ~f:find_region in
   (region, {t with regions = List.filter t.regions ~f:(Fn.compose not find_region)})

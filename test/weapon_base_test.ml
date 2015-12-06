@@ -1,18 +1,18 @@
 open Core.Std
 module R = Region_base
 
-class test_region common = object (self)
-  inherit R.region common
-  method get_region_type = `Blade
-  method get_region_uniq_abilities = []
-end
+let builtin = {
+  R.Builtin.ability = `Slash_attack;
+  attachable = [];
+  region_type = `Blade
+}
 
 let%spec "Weapon can detach region having self" =
   let module A = Ability in
   let module W = Weapon_base in
   let module C = Region_common in
-  let regions = [new test_region {
-    Region_common.id = 1L;
+  let regions = [R.make ~builtin ~common:{
+    R.Common.id = 1L;
     base_ratio = 0.1;
     attachable = [`Slash_defence];
     max_abilities = 1;
@@ -34,8 +34,8 @@ let%spec "Weapon can detach region not contained and get None as region" =
   let module A = Ability in
   let module W = Weapon_base in
   let module C = Region_common in
-  let regions = [new test_region {
-    Region_common.id = 1L;
+  let regions = [R.make ~builtin ~common:{
+    R.Common.id = 1L;
     base_ratio = 0.1;
     attachable = [`Slash_defence];
     max_abilities = 1;
