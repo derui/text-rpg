@@ -5,17 +5,18 @@ type builtin = R.region_type * R.Builtin.t [@@deriving sexp]
 (* Builtin with region_type to map on a list *)
 type frequency = Float.t * Ability.ability_class
   [@@deriving sexp]
-(* Frequency is a ability attachable frequency. All frequency must less equal than 1.0 *)
+(* Frequency is a ability attachable frequency. All frequencies are must less equal than 1.0 *)
+
 type region_freq = R.region_type * frequency list [@@deriving sexp]
-(* Per-region ability frequency list. Sum of frequency in this type must equal to 1.0 *)
+(* Per-region ability frequency list. Sum of frequencies in this type must equal to 1.0 *)
 
 type t = {
   region_builtins: builtin list;
   (* A list of mergeable ability *)
   max_attachable_count: Int.t;
-(* Maximum count to be able to attach a region *)
-  region_attachable_freq: region_freq list
-(* Per-region frequency attached ability. Each freqency for re *)
+  (* Maximum count to be able to attach a region *)
+  region_attachable_freq: region_freq list;
+  (* Per-region frequency attached ability. Each freqency for re *)
 } [@@deriving sexp]
 
 let empty = {

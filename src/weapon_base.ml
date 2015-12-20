@@ -7,8 +7,11 @@ type component = Region_common.region_type * int [@@deriving sexp]
    weapon.
 *)
 
+type id = Int64.t [@@deriving sexp]
+
 (* The type of weapon *)
 type t = {
+  id: id;
   regions: Region_base.t list;
   (* Regions constructed a weapon *)
   components: component list;
@@ -16,7 +19,8 @@ type t = {
 } [@@deriving sexp]
 
 (* A simple wrapper making Region. *)
-let make ?(regions=[]) ~components () = {
+let make ?(regions=[]) ~id ~components () = {
+  id;
   regions;
   components;
 }

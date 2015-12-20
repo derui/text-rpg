@@ -22,7 +22,7 @@ let%spec "Weapon can detach region having self" =
       mergeability = A.Unmergeable
     }];
   }] in
-  let w = W.make ~regions ~components:[] () in
+  let w = W.make ~id:1L ~regions ~components:[] () in
 
   let region, w = W.detach_region w 1L in
   region [@eq Some (List.nth_exn regions 0)];
@@ -44,7 +44,7 @@ let%spec "Weapon can detach region not contained and get None as region" =
       mergeability = A.Unmergeable
     }];
   }] in
-  let w = W.make ~regions ~components:[] () in
+  let w = W.make ~id:1L ~regions ~components:[] () in
 
   let region, w = W.detach_region w 2L in
   region [@eq None];
