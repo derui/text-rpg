@@ -14,6 +14,7 @@ type t = {
   id: Uuid.t;
 } [@@deriving sexp]
 
+(* Get a empty actor with kind. Actor's identity always generate a new uuid. *)
 let empty kind = {
   life = S.Life.empty;
   status = S.Status.empty;
