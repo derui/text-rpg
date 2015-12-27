@@ -37,6 +37,7 @@ let find_region t r = Inventory.find t.regions (Region_base.region_id r)
 let find_ability t a = Inventory.find t.abilities a.Ability.id 
 let find_weapon t w = Inventory.find t.weapons w.Weapon_base.id
 
+(* remove an item from the inventory *)
 let remove_region t r = {t with regions = Inventory.remove t.regions (Region_base.region_id r)}
 let remove_ability t a = {t with abilities = Inventory.remove t.abilities a.Ability.id}
 let remove_weapon t w = {t with weapons = Inventory.remove t.weapons w.Weapon_base.id}
