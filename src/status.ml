@@ -61,4 +61,13 @@ module Buff = struct
     weight: Float.t;
     duration: Int.t;
   }  [@@deriving sexp]
+
+  (* Pass over a turn from a buff. *)
+  let pass_turn t ?f () =
+    match f with
+    | None -> {t with duration = t.duration - 1}
+    | Some f -> {t with duration = t.duration - 1; weight = f t.weight}
+
+  (* Get a buff finished or not *)
+  let is_finished t = t.duration <= 0
 end
