@@ -1,58 +1,32 @@
 open Core.Std
 
-type kind =
-    Slash_attack | Smash_attack | Lunge_attack
-  | Slash_defence | Smash_defence | Lunge_defence
-  | Vitality | Dexterity | Agility
-  | Life 
-      [@@deriving sexp]
-
-(* The module to store value with kind as key *)
-module KindMap = Map.Make(struct
-  type t = kind
-  let t_of_sexp = [%of_sexp: kind]
-  let sexp_of_t = [%sexp_of: kind]
-  let compare = compare
-end)
+include Status_types
 
 (* Element is minimum parts of status. Each elements has a kind of element and quantity of kind.  *)
-module Element = struct
-  type t = {
-    kind: kind;
-    quantity: Float.t;
-  } [@@deriving sexp]
-
-  let make ~kind ~quantity = {kind; quantity}
-  let update t quantity = {t with quantity = quantity}
-end
+module Element = Status_element
 
 (* Life have current life and maximum life as element having kind of Life. *)
-module Life = struct
-  type t = {
-    element: Element.t;
-    current: Float.t;
-  } [@@deriving sexp]
+module Life = Status_life
 
-  let empty = {
-    element = Element.make ~kind:Life ~quantity:0.0;
-    current = 0.0;
-  }
-end
-
-(* Status is actor's basement states *)
+(* Status is actor's basement states. This alway have nearly all state of kind of type kind. *)
 module Status = struct
   type t = Element.t list [@@deriving sexp]
 
-  let empty = []
+  let empty = [
+    Element.make ~kind:Slash_attack ~quantity:0.0;
+    Element.make ~kind:Smash_attack ~quantity:0.0;
+    Element.make ~kind:Lunge_attack ~quantity:0.0;
+    Element.make ~kind:Slash_defence ~quantity:0.0;
+    Element.make ~kind:Smash_defence ~quantity:0.0;
+    Element.make ~kind:Lunge_defence ~quantity:0.0;
+    Element.make ~kind:Vitality ~quantity:0.0;
+    Element.make ~kind:Dexterity ~quantity:0.0;
+    Element.make ~kind:Agility ~quantity:0.0;
+  ]
 end
 
 (* Element is an addition for status. This aggregate ability's values. *)
-module Effect = struct
-  type t = {
-    element: Element.t;
-    weight: Float.t;
-  } [@@deriving sexp]
-end
+module Effect = Status_effect
 
 (* Buff is an buff/debuff to actor. *)
 module Buff = struct
