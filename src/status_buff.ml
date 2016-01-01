@@ -11,6 +11,8 @@ let make ~element ~weight ~duration = {
   element; weight; duration;
 }
 
+let weight {weight;_} = weight
+
 let pass_turn t ?f () =
   match f with
   | None -> {t with duration = t.duration - 1}

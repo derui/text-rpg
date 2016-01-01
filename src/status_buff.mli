@@ -10,5 +10,8 @@ val pass_turn: t -> ?f:(Float.t -> Float.t) -> unit -> t
 (* [pass_turn t ?f ()] gets updated buff which is decreased duration. This function updates weight of buff
    if gives [?f] *)
 
+val weight: t -> Float.t
+(* [weight t] gets current weight. *)
+
 val is_finished: t -> bool
 (* Get a buff finished or not *)

@@ -16,3 +16,13 @@ let empty = [
   Element.make ~kind:Dexterity ~quantity:0.0;
   Element.make ~kind:Agility ~quantity:0.0;
 ]
+
+let update t e =
+  let module E = Status_element in
+  match List.find t ~f:(fun el -> E.kind el = E.kind e) with
+  | None -> t
+  | Some el ->
+     let t = List.filter t ~f:(fun el' -> E.kind el <> E.kind el') in
+     e :: t
+
+let get_element t kind = let module E = Status_element in List.find t ~f:(fun el -> E.kind el = kind) 
