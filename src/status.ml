@@ -9,7 +9,7 @@ module Element = Status_element
 module Life = Status_life
 
 (* Status is actor's basement states. This alway have nearly all state of kind of type kind. *)
-module Basement = Status_basement
+module Base = Status_base
 
 (* Element is an addition for status. This aggregate ability's values. *)
 module Effect = Status_effect

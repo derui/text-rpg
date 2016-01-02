@@ -2,13 +2,7 @@
 
 open Core.Std
 
-module Character_map = Map.Make(struct
-  type t = Actor.Id.t
-
-  let compare = Actor.Id.compare
-  let t_of_sexp = [%of_sexp: Actor.Id.t]
-  let sexp_of_t = [%sexp_of: Actor.Id.t]
-end)
+module Character_map = Map.Make(Actor.Id)
 
 type t = {
   (* the array to contain actors *)
@@ -22,6 +16,11 @@ let empty = {
   characters = Character_map.empty;
 }
 
-let add_actor t actor = {
-  t with actors = actor :: t.actors
-}
+(* add an actor and character implementation to the actor container *)
+let add_actor t actor =
+  let id = Actor.id actor in
+  let ch = Actor.kind actor |> Character_maker.make id in
+  {
+    actors = actor :: t.actors;
+    characters = Character_map.add t.characters ~key:id ~data:ch
+  }

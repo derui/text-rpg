@@ -26,4 +26,5 @@ let%spec "Basement can update specified element" =
   let base = Basement.empty in
   let element = Element.make ~kind:Slash_attack ~quantity:1.0 in
   let base = Basement.update base element in
-  Basement.get_element base Slash_attack [@eq Some element]
+  Basement.get_element base Slash_attack [@eq Some element];
+  Basement.get_element base Life [@eq None]
