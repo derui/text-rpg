@@ -1,26 +1,26 @@
-(* Provide actor container that contains actors and characters, and objects relationship for actor *)
+(* Provide actor container that contains actors and characters, and objects relationship for actor.
+   Container having actor and character set has functions to add and remove, and find for actor set.
+*)
 
 open Core.Std
 
 module Character_map = Map.Make(Actor.Id)
 
-type t = {
-  (* the array to contain actors *)
-  actors: Actor.t list;
-  characters: Character.t Character_map.t;
-}
+type actor_set = Actor.t * Character.t
+
+type t = actor_set Character_map.t
 
 (* Get an empty actor_container *)
-let empty = {
-  actors = [];
-  characters = Character_map.empty;
-}
+let empty = Character_map.empty
 
 (* add an actor and character implementation to the actor container *)
-let add_actor t actor =
+let add t actor =
   let id = Actor.id actor in
   let ch = Actor.kind actor |> Character_maker.make id in
-  {
-    actors = actor :: t.actors;
-    characters = Character_map.add t.characters ~key:id ~data:ch
-  }
+  Character_map.add t ~key:id ~data:(actor, ch)
+
+let match_id id actor = Actor.id actor = id
+
+let remove t actor_id =
+  let target = Character_map.find t actor_id in
+  (Character_map.remove t actor_id, target)
