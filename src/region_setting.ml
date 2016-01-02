@@ -3,6 +3,7 @@ module R = Region_base
 
 type builtin = R.region_type * R.Builtin.t [@@deriving sexp]
 (* Builtin with region_type to map on a list *)
+
 type frequency = Float.t * Ability.ability_class
   [@@deriving sexp]
 (* Frequency is a ability attachable frequency. All frequencies are must less equal than 1.0 *)
