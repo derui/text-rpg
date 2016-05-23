@@ -14,7 +14,7 @@ let empty = {
 }
 
 let current {current} = current
-let max_life {element;_} = Status_element.value element
+let max_life {element;_} = Status_element.quantity element
 
 let change t ~f =
   let new_val = f t.current in

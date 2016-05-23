@@ -9,5 +9,5 @@ type t = {
 let make ~kind ~quantity = {kind; quantity}
 let update t quantity = {t with quantity = quantity}
 
-let value {quantity;_} = quantity
+let quantity {quantity;_} = quantity
 let kind {kind;_} = kind

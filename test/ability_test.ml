@@ -1,3 +1,4 @@
+[%%suite
 open Core.Std
 
 let%spec "Ability should merge abilities which apply offset for parameter" =
@@ -88,3 +89,5 @@ let%spec "Ability should ignore different ability_class from base ability" =
   merged.A.ability_class [@eq `Slash_attack];
   merged.A.value [@eq 2.0];
   merged.A.mergeability [@eq A.Mergeable A.Addition]
+
+]

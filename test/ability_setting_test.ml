@@ -1,3 +1,4 @@
+[%%suite
 open Core.Std
 
 let%spec "Ability setting can write to and load from a file" =
@@ -11,3 +12,5 @@ let%spec "Ability setting can write to and load from a file" =
 
   loaded.S.mergeable_abilities [@eq [`Slash_attack]];
   loaded.S.unmergeable_abilities [@eq [`Slash_defence]]
+
+]

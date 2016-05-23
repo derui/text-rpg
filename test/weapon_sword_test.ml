@@ -1,4 +1,5 @@
-open Core.Std
+[%%suite
+ open Core.Std
 
 let%spec "Sword should have 3 component to be able to attach" =
   let module W = Weapon_base in
@@ -9,3 +10,4 @@ let%spec "Sword should have 3 component to be able to attach" =
   List.find w.W.components ~f:(fun c -> Tuple.T2.get1 c = `Blade) [@eq Some((`Blade, 1))];
   List.find w.W.components ~f:(fun c -> Tuple.T2.get1 c = `Helve) [@eq Some((`Helve, 1))];
   List.find w.W.components ~f:(fun c -> Tuple.T2.get1 c = `Lower_guard) [@eq Some((`Lower_guard, 1))];
+]
