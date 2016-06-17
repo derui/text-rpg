@@ -5,3 +5,4 @@ EXT spec
 PKG core
 PKG num
 PKG ppx_sexp
+PKG sdlcaml
