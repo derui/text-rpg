@@ -2,12 +2,6 @@ open Core.Std
 
 module S = Status
 
-module Id = struct
-  type t = Uuid.t [@@deriving sexp]
-
-  let compare = Uuid.compare
-end
-
 type kind = Player [@@deriving sexp]
 
 (* Actor have common status, but not have any specialized behavior related actor's kind. *)
@@ -17,17 +11,17 @@ type t = {
   effects: S.Effect.t list;
   buffs: S.Buff.t list;
   kind: kind;
-  id: Id.t;
+  id: Actor_id.t;
 } [@@deriving sexp]
 
 (* Get a empty actor with kind. Actor's identity always generate a new uuid. *)
-let empty kind = {
+let empty (module G : Actor_id.Generator_instance) kind = {
   life = S.Life.empty;
   base = S.Base.empty;
   effects = [];
   buffs = [];
   kind;
-  id = Uuid.create ();
+  id = G.Generator.gen G.this ();
 }
 
 let id {id;_} = id

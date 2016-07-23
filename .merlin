@@ -3,6 +3,7 @@ S test
 B src
 EXT spec
 PKG core
+PKG lwt
 PKG num
 PKG ppx_sexp
 PKG sdlcaml

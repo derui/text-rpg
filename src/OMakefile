@@ -13,6 +13,7 @@ OCAMLPACKS[] =
 	ppx_sexp_value
 	sexplib
 	sdlcaml
+	lwt
 #
 if $(not $(OCAMLFIND_EXISTS))
    eprintln(This project requires ocamlfind, but is was not found.)
