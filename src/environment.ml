@@ -1,8 +1,9 @@
 type t = {
   inventory: Inventory.t;
-  player: Character.t;
+  actors: Actor_container.t;
 }
 
 let make () = {
   inventory = Inventory.empty;
+  actors = Actor_container.empty;
 }
