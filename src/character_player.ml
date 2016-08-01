@@ -1,12 +1,12 @@
 (* Character implementation for Player *)
 
 type t = {
-  id: Actor_id.t
+  actor: Actor.t
 }
-let actor_id t = t.id
-let do_action t actor = (actor, None)
+let get_actor t = t.actor
+let update t actor = (actor, None)
 let handle_message t actor mes = (actor, None)
 
-let make id = {
-  id
+let make actor = {
+  actor
 }

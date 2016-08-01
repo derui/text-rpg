@@ -16,7 +16,7 @@ let empty = Character_map.empty
 (* add an actor and character implementation to the actor container *)
 let add t actor =
   let id = Actor.id actor in
-  let ch = Actor.kind actor |> Character_maker.make id in
+  let ch = Actor.kind actor |> Character_maker.make actor in
   Character_map.add t ~key:id ~data:(actor, ch)
 
 let remove t actor_id =

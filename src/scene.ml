@@ -2,6 +2,8 @@ open Core.Std
 module T = Game_types.Scene
 module Sd = Sdlcaml.Std
 
+let finish () = Lwt.fail Game_types.Scene.Finished
+
 module type Scene = sig
   type t
 
@@ -13,7 +15,7 @@ module type Scene = sig
      Instance of [t] is holded in [env], so you can hold any mutable value in [t].
   *)
 
-  val render: t -> Environment.t -> Sd.Window.t -> unit Lwt.t
+  val render: t -> Environment.t -> Sd.Renderer.t -> unit Lwt.t
   (* [render t env window] perform scene rendering with [env] and [t].
      Notice that [render] and [handle_key] functions are run on each another thread
      always, so user that implement some scene should be very carefully it.
@@ -49,18 +51,14 @@ module Scene_base_camp = struct
     | _ -> Lwt.return t
 
   let render t env w =
-    let module W = Sd.Window in
-    let module C = Sd.Structures.Color in
-    let module F = Sd.Flags.Sdl_pixel_format_enum in
-    let s = W.get_surface w in
-    let open Sd.Types.Result.Monad_infix in 
-    let module T = Sd.Types.Result in 
-    let _ = Sd.Surface.fill_rect ~dst:s ~color:(Sd.Timer.get_ticks ()) ()
-            >>= fun () -> W.update_surface w |> T.return in
+    let module R = Sd.Renderer in
+    let module RE = Sd.Structures.Rect in
+    let rect = {RE.h = 100; w = 200; x = 10; y = 40} in
+    let _ = R.draw_rect ~renderer:w ~rect in
     Lwt.return ()
 
   let update t env =
-    if t = 1 then Lwt.fail Game_types.Scene.Finished
+    if t = 1 then finish ()
     else Lwt.return (t, Game_types.Scene.Stay)
 end
 

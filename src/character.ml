@@ -1,7 +1,7 @@
 open Core.Std
 
 (* type of result when done action *)
-type result = Actor.t * Message.t option
+type action = Actor.t * Message.t option
 
 (* basement character object. All specialized characters has to implement do_action and handle_message
    methods.
@@ -9,13 +9,13 @@ type result = Actor.t * Message.t option
 module type Character = sig
   type t
 
-  val actor_id: t -> Actor_id.t
+  val get_actor: t -> Actor.t
   (* Return id of actor to be related this *)
 
-  val do_action: t -> Actor.t -> result
+  val update: t -> Actor.t -> action
   (* Update status in actor and return a message if action *)
 
-  val handle_message: t -> Actor.t -> Message.t -> result
+  val handle_message: t -> Actor.t -> Message.t -> action
   (* A handler to handle message given from other actor *)
 end
 
