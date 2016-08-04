@@ -46,15 +46,13 @@ let make_fps_timer fps f =
   in
   fun () -> timer f
 
-let render ~renderer ~env ~current_scene () =
-  let open Lwt in 
-  let (module S : Scene.Scene_instance) = current_scene in
-  S.Scene.render S.this env renderer
-
 (* renderer thread with 60 FPS *)
 let renderer director = make_fps_timer fps (fun () ->
   let {renderer; current_scene;environment = env;_} = director in
-  render ~renderer ~env ~current_scene ()
+  let open Lwt in 
+  let module R = S.Renderer in
+  let (module S : Scene.Scene_instance) = current_scene in
+  S.Scene.render S.this env renderer >>= fun () -> R.present renderer |> return
 )
 
 let rec event_handler director () = 

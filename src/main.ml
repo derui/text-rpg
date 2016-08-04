@@ -3,11 +3,6 @@ open Core.Std
 
 let fps = Int32.(1000l / 60l)
 
-let render ~window ~env ~current_scene () =
-  let open Lwt in 
-  let (module S : Scene.Scene_instance) = current_scene in
-  S.Scene.render S.this env window
-
 let with_sdl f =
   let module F = S.Flags.Sdl_init_flags in
   S.Init.init [F.SDL_INIT_VIDEO;F.SDL_INIT_TIMER;F.SDL_INIT_EVENTS];
