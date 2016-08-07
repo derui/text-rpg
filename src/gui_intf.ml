@@ -2,9 +2,9 @@
 module type Gui = sig
   type t
 
-  type operations
+  type operation
 
-  val handle_operations: t -> operation:operations -> t Lwt.t
+  val handle_operation: t -> operation:operation -> t Lwt.t
 (* Handle some operation that defined in this interface *)
 
   val render: t -> renderer:Sdlcaml.Std.Renderer.t -> unit Lwt.t

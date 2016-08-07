@@ -8,17 +8,17 @@ open Core.Std
 type t = {
   mutable current_scene: (module Scene.Scene_instance);
   mutable environment: Environment.t;
-  renderer: S.Renderer.t;
+  context: Rendering_context.t;
   waiter: unit Lwt.t;
   wakener: unit Lwt.u;
 }
 
-let make scene env renderer =
+let make scene env context =
   let waiter, wakener = Lwt.wait () in
   {
     current_scene = scene;
     environment = env;
-    renderer;
+    context;
     waiter;
     wakener;
   }
@@ -48,11 +48,11 @@ let make_fps_timer fps f =
 
 (* renderer thread with 60 FPS *)
 let renderer director = make_fps_timer fps (fun () ->
-  let {renderer; current_scene;environment = env;_} = director in
+  let {context; current_scene;environment = env;_} = director in
   let open Lwt in 
   let module R = S.Renderer in
   let (module S : Scene.Scene_instance) = current_scene in
-  S.Scene.render S.this env renderer >>= fun () -> R.present renderer |> return
+  S.Scene.render S.this env context >>= fun () -> R.present context.Rendering_context.renderer |> return
 )
 
 let rec event_handler director () = 

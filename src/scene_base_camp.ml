@@ -19,11 +19,12 @@ module S = struct
     end
     | _ -> Lwt.return t
 
-  let render t env w =
+  let render t env context =
     let module R = Sd.Renderer in
     let module RE = Sd.Structures.Rect in
     let rect = {RE.h = 100; w = 200; x = 10; y = 40} in
-    let _ = R.draw_rect ~renderer:w ~rect in
+    let renderer = context.Rendering_context.renderer in
+    let _ = R.draw_rect ~renderer ~rect in
     Lwt.return ()
 
   let update t env =

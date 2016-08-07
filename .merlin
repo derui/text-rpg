@@ -7,3 +7,4 @@ PKG lwt
 PKG num
 PKG ppx_sexp
 PKG sdlcaml
+PKG sdlcaml_ttf

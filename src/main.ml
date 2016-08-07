@@ -1,5 +1,8 @@
 module S = Sdlcaml.Std
+module Ttf = Sdlcaml_ttf.Std
 open Core.Std
+
+let font_point = 12
 
 let fps = Int32.(1000l / 60l)
 
@@ -11,6 +14,7 @@ let with_sdl f =
 let () =
 
   with_sdl (fun () ->
+
     let module F = S.Flags.Sdl_window_flags in
     let window = S.Window.create ~title:"Text RPG" ~x:0 ~y:0 ~w:640 ~h:480 ~flags:[] in
     protect ~f:(fun () ->
@@ -18,9 +22,12 @@ let () =
       let env = Environment.make () in
       let module F = S.Flags.Sdl_renderer_flags in
       S.Types.Result.(
+        Ttf.General.init () >>= fun () ->
+        Ttf.Management.open_font ~filename:"./font.ttf" ~point:font_point >>= fun font ->
         S.Renderer.create ~window ~flags:[F.SDL_RENDERER_ACCELERATED] () >>= fun renderer ->
         return (
-          Director.make (Scene.create env Game_types.Scene.Base_camp) env renderer
+          let context = {Rendering_context.renderer = renderer; font} in
+          Director.make (Scene.create env Game_types.Scene.Base_camp) env context
         ) >>= fun d ->
         Lwt_main.run @@ Director.main_loop d |> return
       ) |> ignore

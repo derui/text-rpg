@@ -12,7 +12,7 @@ module type Scene = sig
      Instance of [t] is holded in [env], so you can hold any mutable value in [t].
   *)
 
-  val render: t -> Environment.t -> Sdlcaml.Std.Renderer.t -> unit Lwt.t
+  val render: t -> Environment.t -> Rendering_context.t -> unit Lwt.t
   (* [render t env window] perform scene rendering with [env] and [t].
      Notice that [render] and [handle_key] functions are run on each another thread
      always, so user that implement some scene should be very carefully it.

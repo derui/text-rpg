@@ -13,6 +13,7 @@ OCAMLPACKS[] =
 	ppx_sexp_value
 	sexplib
 	sdlcaml
+	sdlcaml_ttf
 	lwt
 	lwt.unix
 #
