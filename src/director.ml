@@ -87,7 +87,7 @@ let update_scene director = make_fps_timer fps (fun () ->
     match transition with
     | Game_types.Scene.Stay -> Lwt.return_unit
     | Game_types.Scene.Transition typ -> begin
-      director.current_scene <- Scene.create env typ;
+      director.current_scene <- Scene.create env director.context typ;
       Lwt.return_unit
     end)
   )

@@ -23,11 +23,11 @@ let () =
       let module F = S.Flags.Sdl_renderer_flags in
       S.Types.Result.(
         Ttf.General.init () >>= fun () ->
-        Ttf.Management.open_font ~filename:"./font.ttf" ~point:font_point >>= fun font ->
+        Ttf.Management.open_font ~filename:"/usr/share/fonts/ipamonafont/ipag-mona.ttf" ~point:font_point >>= fun font ->
         S.Renderer.create ~window ~flags:[F.SDL_RENDERER_ACCELERATED] () >>= fun renderer ->
         return (
           let context = {Rendering_context.renderer = renderer; font} in
-          Director.make (Scene.create env Game_types.Scene.Base_camp) env context
+          Director.make (Scene.create env context Game_types.Scene.Base_camp) env context
         ) >>= fun d ->
         Lwt_main.run @@ Director.main_loop d |> return
       ) |> ignore

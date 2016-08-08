@@ -35,7 +35,7 @@ OCAMLINCLUDES +=
 NATIVE_ENABLED = $(OCAMLOPT_EXISTS)
 BYTE_ENABLED = true
 
-MY_LINK_FLAGS = $(shell sdl2-config --cflags --libs) -DDEBUG
+MY_LINK_FLAGS = $(shell sdl2-config --cflags --libs) -lSDL2_ttf -DDEBUG
 if $(IsMac)
 	MY_LINK_FLAGS += -framework OpenGL
 	export

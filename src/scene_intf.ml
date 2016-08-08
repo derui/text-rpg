@@ -4,7 +4,7 @@ open Core.Std
 module type Scene = sig
   type t
 
-  val make: Environment.t -> t
+  val make: Environment.t -> Rendering_context.t -> t
   (* [make env] get the new scene created from [env] *)
 
   val handle_event: t -> Game_types.event -> t Lwt.t
