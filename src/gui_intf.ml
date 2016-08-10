@@ -2,11 +2,6 @@
 module type Gui = sig
   type t
 
-  type operation
-
-  val handle_operation: t -> operation:operation -> t Lwt.t
-(* Handle some operation that defined in this interface *)
-
   val render: t -> renderer:Sdlcaml.Std.Renderer.t -> unit Lwt.t
 (* Render GUI into the [renderer]. *)
 end
